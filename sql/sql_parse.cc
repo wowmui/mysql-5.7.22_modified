@@ -3800,8 +3800,8 @@ end_with_restore_list:
 	if (!(check_global_access(thd, SUPER_ACL)))
 	{
 	  my_error(ER_DBACCESS_DENIED_ERROR, MYF(0),
-		  thd->security_context()->priv_user,
-		  thd->security_context()->priv_host,
+		  thd->security_context()->priv_user().str,
+		  thd->security_context()->priv_host().str,
 		  lex->name.str);
 	  break;
 	}
