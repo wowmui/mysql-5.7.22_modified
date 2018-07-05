@@ -2315,6 +2315,13 @@ static Sys_var_ulong Sys_max_binlog_size(
        BLOCK_SIZE(IO_SIZE), NO_MUTEX_GUARD, NOT_IN_BINLOG, ON_CHECK(0),
        ON_UPDATE(fix_max_binlog_size));
 
+//忽略超级用户(拥有SUPER/GRANT/SHUTDOWN)权限的用户的连接
+static Sys_var_mybool Sys_ignore_super_connections(
+	"ignore_super_connections",
+	"The super admin user (who with the GRANT privilege) dont't sum in connections, "
+	"insure the management operation executed by super admin user always succeed.",
+	GLOBAL_VAR(ignore_super_connections), CMD_LINE(OPT_ARG), DEFAULT(FALSE));
+
 static Sys_var_ulong Sys_max_connections(
        "max_connections", "The number of simultaneous clients allowed",
        GLOBAL_VAR(max_connections), CMD_LINE(REQUIRED_ARG),

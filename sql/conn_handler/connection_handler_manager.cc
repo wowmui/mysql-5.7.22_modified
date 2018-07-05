@@ -92,14 +92,17 @@ bool Connection_handler_manager::check_and_incr_conn_count()
   bool connection_accepted= true;
   mysql_mutex_lock(&LOCK_connection_count);
   /*
-    Here we allow max_connections + 1 clients to connect
-    (by checking before we increment by 1).
+    Here we allow max_connections + reservecon clients to connect
+    (by checking before we increment by reservecon).
 
     The last connection is reserved for SUPER users. This is
     checked later during authentication where valid_connection_count()
     is called for non-SUPER users only.
   */
-  if (connection_count > max_connections)
+  ulong reservecon;
+  (ignore_super_connections == FALSE) ? reservecon = 0 : reservecon = 9;
+  ulong sumcon = max_connections + reservecon;
+  if (connection_count > sumcon)
   {
     connection_accepted= false;
     m_connection_errors_max_connection++;
