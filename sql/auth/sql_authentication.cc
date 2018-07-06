@@ -2511,11 +2511,10 @@ acl_authenticate(THD *thd, enum_server_command command)
               thd->password ? "yes": "no",
               sctx->master_access(), mpvio.db.str));
 
-  if (command == COM_CONNECT && (
-      !(thd->m_main_security_ctx.check_access(SUPER_ACL)) ||
-	  !(thd->m_main_security_ctx.check_access(GRANT_ACL)) ||
-	  !(thd->m_main_security_ctx.check_access(SHUTDOWN_ACL))
-	  ))
+  if (command == COM_CONNECT && ! (
+      	(thd->m_main_security_ctx.check_access(SUPER_ACL)) ||
+	(thd->m_main_security_ctx.check_access(GRANT_ACL)) ||
+	(thd->m_main_security_ctx.check_access(SHUTDOWN_ACL))))
   {
 #ifndef EMBEDDED_LIBRARY
     if (!Connection_handler_manager::get_instance()->valid_connection_count())
