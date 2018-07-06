@@ -3813,7 +3813,7 @@ end_with_restore_list:
       break;
     }
 #endif
-    if (check_access(thd, DROP_ACL, lex->name.str, NULL, NULL, 1, 0) || (check_global_access(thd, SUPER_ACL))
+    if (check_access(thd, DROP_ACL, lex->name.str, NULL, NULL, 1, 0) || (check_global_access(thd, SUPER_ACL)))
       break;
     res= mysql_rm_db(thd, to_lex_cstring(lex->name), lex->drop_if_exists, 0);
     break;
