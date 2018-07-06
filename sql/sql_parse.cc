@@ -3797,14 +3797,6 @@ end_with_restore_list:
   }
   case SQLCOM_DROP_DB:
   {
-	if (!(check_global_access(thd, SUPER_ACL)))
-	{
-	  my_error(ER_DBACCESS_DENIED_ERROR, MYF(0),
-		  thd->security_context()->priv_user().str,
-		  thd->security_context()->priv_host().str,
-		  lex->name.str);
-	  break;
-	}
     if (check_and_convert_db_name(&lex->name, FALSE) != IDENT_NAME_OK)
       break;
     /*
@@ -3821,7 +3813,7 @@ end_with_restore_list:
       break;
     }
 #endif
-    if (check_access(thd, DROP_ACL, lex->name.str, NULL, NULL, 1, 0))
+    if (check_access(thd, DROP_ACL, lex->name.str, NULL, NULL, 1, 0) || (check_global_access(thd, SUPER_ACL))
       break;
     res= mysql_rm_db(thd, to_lex_cstring(lex->name), lex->drop_if_exists, 0);
     break;
