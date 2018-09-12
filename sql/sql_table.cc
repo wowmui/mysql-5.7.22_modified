@@ -9266,7 +9266,7 @@ bool mysql_alter_table(THD *thd, const char *new_db, const char *new_name,
 	  (forbidden_mem_se == TRUE &&
 		  create_info->db_type->db_type == DB_TYPE_HEAP &&
 		  create_info->db_type->state == SHOW_OPTION_YES &&
-		  !ha_check_storage_engine_flag(create_info->db_type, HTON_CAN_RECREATE))
+		  ha_check_storage_engine_flag(create_info->db_type, HTON_CAN_RECREATE))
 	  )
   {
     DBUG_PRINT("info", ("doesn't support alter"));
